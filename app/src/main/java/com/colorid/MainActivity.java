@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,14 +40,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -59,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_CODE){
             if (resultCode == RESULT_OK){
-                Bundle bundle = new Bundle();
-                bundle = data.getExtras();
-                Bitmap bitMap = (Bitmap) bundle.get("data");
+                Bitmap bitMap = (Bitmap) data.getExtras().get("data");
                 imageView.setImageBitmap(bitMap);
             }
         }
@@ -81,5 +72,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+
+        float eventX = event.getX();
+        float eventY = event.getY();
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                System.out.println("DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                System.out.println("MOVE");
+                break;
+
+            case MotionEvent.ACTION_UP:
+                System.out.println("UP");
+                break;
+
+            default:
+                return false;
+        }
+        //Makes our view repaint and call onDraw
+        return true;
     }
 }
